@@ -1,10 +1,14 @@
 package edu.xanderson.smartTV;
+/* @autor Xanderson Silva;
+ * @version 0.1;
+ * @since 2025-02-15;
+ */
 
 public class app{
+    
 public static void main(String[] args) {
     
     SmartTV MinhaTV = new SmartTV();
-
 
     MinhaTV.MudaEstadoLigada();
     System.out.println("MinhaTV MudaEstadoLigada " + MinhaTV.ligada);
