@@ -1,6 +1,6 @@
 package edu.xanderson.terminal_e_argumentos;
 import java.util.Scanner;
-import java.util.Locale;//Importante devido a entrada de dados décimais
+import java.util.Locale;//Importante devido a entrada de dados decimais
 
 public class AboutMe {
     public static void main(String[] args) {
