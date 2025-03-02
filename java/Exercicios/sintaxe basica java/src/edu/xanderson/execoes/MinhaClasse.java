@@ -6,18 +6,32 @@ import java.util.Locale;
 public class MinhaClasse {
     public class AboutMe {
         public static void main(String[] args) {
-    
-    
+            int idade = 0;
+            double altura = 0;
+            
             Scanner input = new Scanner(System.in).useLocale(Locale.US);
-    
+
+
+            
             System.out.println("Informe seu nome:");
             String nome = input.nextLine();
+        
             System.out.println("Informe seu sobrenome:");
             String sobrenome = input.nextLine();
+
             System.out.println("Informe sua idade:");
-            int idade = input.nextInt();
+            try{
+                idade = input.nextInt();
+            }catch(Exception e){
+                System.out.println(e);
+
+            }
             System.out.println("Informe sua altura (em metros):");
-            double altura = input.nextDouble();
+            try {
+                altura = input.nextDouble();                
+            } catch (Exception e) {
+                System.out.println(e);
+            }
     
             input.close();
             
