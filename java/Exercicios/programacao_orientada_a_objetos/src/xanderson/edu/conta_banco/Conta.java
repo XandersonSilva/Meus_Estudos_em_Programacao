@@ -11,7 +11,6 @@ package xanderson.edu.conta_banco;
 */
 
 public class Conta{
-    private int    numero;
     private double saldo;
     private double chequeEspecial;
     private double maxChequeEspecial;
@@ -20,7 +19,6 @@ public class Conta{
 
     public Conta(int numero, double saldo){
         this.saldo = saldo;
-        this.numero = numero;
 
         if(saldo <= 500){
             this.chequeEspecial = 50;
@@ -62,6 +60,10 @@ public class Conta{
     
     public void Sacar_dinheiro(double saque){
         PagarChequeEspecial();
+        if(saque <= 0){
+            System.out.println("você não pode sacar valores negativos ou nulos");
+            return;
+        }
         if(this.saldo >= saque){
             this.saldo -= saque;
             return;
@@ -77,6 +79,11 @@ public class Conta{
 
     public void PagarBoleto(double valorBoleto){
         PagarChequeEspecial();
+        if(valorBoleto <= 0){
+            System.out.println("você não pode depositar valores negativos ou nulos");
+            return;
+        }
+
         if(this.saldo >= valorBoleto){
             this.saldo -= valorBoleto;
         } else if( (this.saldo + this.chequeEspecial) >= valorBoleto ){

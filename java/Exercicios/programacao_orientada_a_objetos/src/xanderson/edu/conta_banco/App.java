@@ -5,10 +5,31 @@ public class App {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        Conta contaBanco = criarConta();
+        Conta contaBanco = criarConta(input);
         
-        int continuar;
-        if(contaBanco != null){
+        if(contaBanco != null)
+            sistema(contaBanco);
+
+
+    }
+        static Conta criarConta(Scanner input){
+            System.out.println("Deseja criar uma conta?\n Digite 1 para SIM  e 0 para NÃO:");
+            
+            if(0 != input.nextInt()){
+                System.out.println("Informe o número da conta:");
+                int numero = input.nextInt();
+                System.out.println("Deposite o primeiro valor da sua conta:");
+                double saldo = input.nextDouble();
+                
+                Conta contaBanco = new Conta(numero, saldo);
+                return contaBanco;
+            }
+            return null;
+        }    
+        
+        static void sistema(Conta contaBanco){
+            Scanner input = new Scanner(System.in);
+            int continuar = 1;
             do{
                 System.out.println("[ 0 ] Sair\n" + //
                                     "[ 1 ]Consultar saldo\n" + //
@@ -49,21 +70,6 @@ public class App {
             }while(continuar != 0);
             input.close();
         }
-        
-    }
-        static Conta criarConta(){
-            Scanner input = new Scanner(System.in);
-            System.out.println("Deseja criar uma conta?\n Digite 1 para SIM  e 0 para NÃO:");
-            if(1 != input.nextInt())
-               return null;
-            System.out.println("Informe o número da conta:");
-            int numero = input.nextInt();
-            System.out.println("Deposite o primeiro valor da sua conta:");
-            double saldo = input.nextDouble();
-            
-            Conta contaBanco = new Conta(numero, saldo);
-            return contaBanco;
-        }        
 
        
 }
