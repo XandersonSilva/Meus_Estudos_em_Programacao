@@ -171,7 +171,7 @@ public class Carro {
             this.velocidade --;
             return;
         }
-        if(this.velocidade < 120){
+        if(this.velocidade <= 120){
             if(this.marcha != 6){
                 System.out.println("Para diminuir a velocidade você precisa usar a 6ª marcha!");
                 return;
@@ -234,22 +234,22 @@ public class Carro {
                     }
                     break;
                 case 2:
-                    if(this.velocidade >= 21  && this.velocidade <=  40){
+                    if(this.velocidade >= 21  && this.velocidade <=  41){
                         this.marcha = novaMarcha;
                     }
                     break;
                 case 3:
-                    if(this.velocidade >= 41  && this.velocidade <=  60){
+                    if(this.velocidade >= 41  && this.velocidade <=  61){
                         this.marcha = novaMarcha;
                     }
                     break;
                 case 4:
-                    if(this.velocidade >= 61  && this.velocidade <=  80){
+                    if(this.velocidade >= 61  && this.velocidade <=  81){
                         this.marcha = novaMarcha;
                     }
                     break;
                 case 5:
-                    if(this.velocidade >= 81  && this.velocidade <=  100){
+                    if(this.velocidade >= 81  && this.velocidade <=  101){
                         this.marcha = novaMarcha;
                     }
                     break;
@@ -260,6 +260,7 @@ public class Carro {
                     break;
 
                 default:
+                    System.out.println("Marcha inválida informada!");
                     break;
             }
 
