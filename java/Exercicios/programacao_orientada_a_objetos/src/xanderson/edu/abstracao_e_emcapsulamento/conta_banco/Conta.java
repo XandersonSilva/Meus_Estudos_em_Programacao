@@ -1,4 +1,4 @@
-package xanderson.edu.conta_banco;
+package xanderson.edu.abstracao_e_emcapsulamento.conta_banco;
 
 
 /* TODO: Escreva um código onde temos uma conta bancaria que possa realizar as seguintes operações:

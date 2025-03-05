@@ -1,4 +1,4 @@
-package xanderson.edu.veiculo;
+package xanderson.edu.abstracao_e_emcapsulamento.veiculo;
 import java.util.Scanner;
 
 public class app {

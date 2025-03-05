@@ -1,4 +1,5 @@
-package xanderson.edu.conta_banco;
+package xanderson.edu.abstracao_e_emcapsulamento.conta_banco;
+
 import java.util.Scanner;
 
 public class App {
