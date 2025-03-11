@@ -1,14 +1,12 @@
 package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
-
 import java.util.List;
 
-/*
-Gerente métodos 
-        Gerar relatório financeiro,
-        Consultar vendas
-*/
-
 public final class Gerente extends Usuario{
+    /*
+    Gerente métodos 
+            Gerar relatório financeiro,
+            Consultar vendas
+    */
 
     public Gerente(String nome, String email, String senha) {
         super(nome, email, senha);

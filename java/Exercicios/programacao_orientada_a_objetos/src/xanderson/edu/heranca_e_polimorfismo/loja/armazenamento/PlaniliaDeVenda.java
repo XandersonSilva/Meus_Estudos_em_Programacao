@@ -1,8 +1,5 @@
-package xanderson.edu.heranca_e_polimorfismo.loja.sistema;
+package xanderson.edu.heranca_e_polimorfismo.loja.armazenamento;
 import java.util.List;
-
-import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Usuario;
-import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Vendedor;
 
 public class PlaniliaDeVenda {
     /*
@@ -21,25 +18,14 @@ public class PlaniliaDeVenda {
     
     private List<String[]> vendas; // Usando uma lista para armazenar as vendas
     private int id;
-    public Object getVendas;
 
+    
     public PlaniliaDeVenda() {
         this.id = 0; 
     }
 
-    public void realizarVenda(boolean pagamentoRealizado, String nomeProduto, int quantidade, double valorTotal, Usuario usuario) {
-        if(!(usuario instanceof Vendedor)){
-            System.out.println("Apenas vendedores podem realizar vendas!");
-            return;    
-        }
-        this.id++;
-        String pagamentoRealizado_Convert = String.valueOf(pagamentoRealizado);
-        String quantidade_Convert = String.valueOf(quantidade);
-        String valorTotal_Convert = String.valueOf(valorTotal);
-        String id_Convert = String.valueOf(this.id);
-
-        String[] venda = {pagamentoRealizado_Convert, nomeProduto, quantidade_Convert, valorTotal_Convert, id_Convert};
-        this.vendas.add(venda); // Adicionando a nova venda à lista
+    public void realizarVenda(String[] venda) {
+        this.vendas.add(venda); 
     }
 
     public void pagarCompra(int id_venda){
@@ -50,7 +36,20 @@ public class PlaniliaDeVenda {
         }
     }
     
+    public void atualizarVenda(String[] vendaPaga, String[] vendaEmDebito) {
+        vendas.remove(vendaEmDebito);
+        vendas.add(vendaPaga);
+    }
+
     public List<String[]> getVendas(){
         return vendas;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

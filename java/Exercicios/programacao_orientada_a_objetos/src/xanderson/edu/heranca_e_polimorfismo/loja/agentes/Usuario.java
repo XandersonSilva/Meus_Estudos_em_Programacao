@@ -1,5 +1,5 @@
 package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
-import xanderson.edu.heranca_e_polimorfismo.loja.sistema.PlaniliaDeVenda;
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
 
 
 public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
@@ -21,22 +21,22 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
         
 
     @SuppressWarnings("unused")
-    private   String   nome;
-    private   String   email;
-    private   String   senha;
-    protected boolean  administrador;
-    private   boolean  logado;
-    
+    private   String          nome;
+    private   String          email;
+    private   String          senha;
+    protected boolean         administrador;
+    private   boolean         logado;
+    protected PlaniliaDeVenda planiliaDeVenda;
     
     
     //Objeto para gerenciamento de vendas pelos diferentes atores dessa classe
-    protected PlaniliaDeVenda planiliaDeVenda = new PlaniliaDeVenda();
-
-
+    
+    
     public Usuario(String  nome, String  email, String  senha){
-        this.nome          = nome;
-        this.email         = email;
-        this.senha         = senha;
+        this.planiliaDeVenda = new PlaniliaDeVenda();
+        this.nome            = nome;
+        this.email           = email;
+        this.senha           = senha;
     }
 
     public void alterarDados(String email, String nome) {
