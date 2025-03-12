@@ -1,4 +1,5 @@
 package xanderson.edu.heranca_e_polimorfismo.loja.armazenamento;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlaniliaDeVenda {
@@ -16,12 +17,14 @@ public class PlaniliaDeVenda {
             ]
     */
     
-    private List<String[]> vendas; // Usando uma lista para armazenar as vendas
+    private ArrayList<String[]> vendas;
     private int id;
+
 
     
     public PlaniliaDeVenda() {
-        this.id = 0; 
+        this.vendas = new ArrayList<String[]>();  // Inicializa a lista de vendas
+        this.id = 0;
     }
 
     public void realizarVenda(String[] venda) {

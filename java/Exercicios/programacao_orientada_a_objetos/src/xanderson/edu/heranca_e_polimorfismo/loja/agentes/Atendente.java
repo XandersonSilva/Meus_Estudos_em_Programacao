@@ -10,13 +10,17 @@ public final class Atendente extends Usuario{
 
     private double caixa;
     
-    public Atendente(String nome, String email, String senha) {
-        super(nome, email, senha);
+    public Atendente(String nome, String email, String senha, char tipo) {
+        super(nome, email, senha, tipo);
         
     }
     
 
     public void receberPagamento(Usuario usuario, int id){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
         String[] vendaEmDebito = null;
 
         if(!(usuario instanceof Atendente)){
@@ -45,6 +49,10 @@ public final class Atendente extends Usuario{
     }
 
     public void feicharCaixa(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
         System.out.println("O valor atual do caixa é: R$ " + caixa);
     }
 }

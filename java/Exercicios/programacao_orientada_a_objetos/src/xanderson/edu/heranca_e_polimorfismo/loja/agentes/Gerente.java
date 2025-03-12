@@ -8,12 +8,16 @@ public final class Gerente extends Usuario{
             Consultar vendas
     */
 
-    public Gerente(String nome, String email, String senha) {
-        super(nome, email, senha);
+    public Gerente(String nome, String email, String senha, char tipo) {
+        super(nome, email, senha, tipo);
         setAdministrador(true);
     }
     
     public void gerarRelatórioFinanceiro(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
         List<String[]> vendas = planiliaDeVenda.getVendas();
         double pago    = 0;
         double naoPago = 0;
@@ -31,6 +35,10 @@ public final class Gerente extends Usuario{
     }
     
     public void consultarVendas(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
         List<String[]> vendas = planiliaDeVenda.getVendas();
         for (String[] venda : vendas) {
             String pagamento =  Boolean.getBoolean(venda[0]) ? "Pagamento realizado"  : "Pagamento pendente";

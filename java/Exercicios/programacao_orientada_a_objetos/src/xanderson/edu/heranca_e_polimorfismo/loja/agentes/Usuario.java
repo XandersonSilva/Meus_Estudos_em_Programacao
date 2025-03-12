@@ -20,23 +20,38 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
      */
         
 
+    public    char            tipo; // Possibilidades: a:Atendente v:Vendedor g:Gerente
     @SuppressWarnings("unused")
     private   String          nome;
-    private   String          email;
-    private   String          senha;
+    protected String          email;
+    protected String          senha;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
     protected boolean         administrador;
-    private   boolean         logado;
+    protected boolean         logado;
+    
+
     protected PlaniliaDeVenda planiliaDeVenda;
     
     
     //Objeto para gerenciamento de vendas pelos diferentes atores dessa classe
     
     
-    public Usuario(String  nome, String  email, String  senha){
+    public Usuario(String  nome, String  email, String  senha, char tipo){
         this.planiliaDeVenda = new PlaniliaDeVenda();
         this.nome            = nome;
         this.email           = email;
         this.senha           = senha;
+        this.tipo            = tipo;
+        
+        
+        fazerLogin(email, senha);
     }
 
     public void alterarDados(String email, String nome) {
@@ -45,10 +60,6 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
     }
 
     public void alterarSenha(String senha){
-        if(this.senha == senha){
-            System.out.println("A nova senha não pode ser igual a antiga!");
-            return;
-        }
         this.senha = senha;
         System.out.println("Senha atualizada!");
 
@@ -58,9 +69,9 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
         if(this.logado){
             System.out.println("Você já está logado!");
         }
-
-        if(!(this.email == email && this.senha == senha)){
-            System.out.println("email ou senha incorretos!");
+    
+        if (!getEmail().equals(email) || !getSenha().equals(senha)) {
+            System.out.println("Email ou senha incorretos!");
             return;
         }
         this.logado = true;
@@ -73,9 +84,6 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
             return;
         }
         this.logado = false;
-        this.nome   = null;
-        this.email  = null;
-        this.senha  = null;
     }
     
     public boolean isAdministrador() {
@@ -84,6 +92,10 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
 
     protected void setAdministrador(boolean administrador) {
         this.administrador = administrador;
+    }
+
+    public boolean isLogado() {
+        return logado;
     }
 }
     
