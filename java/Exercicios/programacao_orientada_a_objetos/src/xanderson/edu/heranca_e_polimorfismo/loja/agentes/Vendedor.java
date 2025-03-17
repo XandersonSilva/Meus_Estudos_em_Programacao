@@ -1,11 +1,14 @@
 package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
 import java.util.concurrent.ThreadLocalRandom;
+
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
 import java.util.List;
 
 public final class Vendedor extends Usuario{
 
-    public Vendedor(String nome, String email, String senha, char tipo) {
-        super(nome, email, senha, tipo);
+    public Vendedor(String nome, String email, String senha, char tipo, PlaniliaDeVenda planiliaDeVenda) {
+        super(nome, email, senha, tipo, planiliaDeVenda);
         this.administrador = false;
     }
 
@@ -39,13 +42,13 @@ public final class Vendedor extends Usuario{
         }
         List<String[]> vendas = planiliaDeVenda.getVendas();
         for (String[] venda : vendas) {
-            String pagamento =  Boolean.getBoolean(venda[0]) ? "Pagamento realizado"  : "Pagamento pendente";
+            String pagamento =  venda[0] == "true" ? "Pagamento realizado" : "Pagamento pendente";
             System.out.println(pagamento + "; nome do produto:" + venda[1] + ", quantidade: " + venda[2] + ", valorTotal: "+ venda[3] + ", id: " + venda[4]);
         }
     }
 
     private double gerarValor(){
-        return ThreadLocalRandom.current().nextDouble(0, 100000);
+        return ThreadLocalRandom.current().nextDouble(0, 10000);
     }
 
     

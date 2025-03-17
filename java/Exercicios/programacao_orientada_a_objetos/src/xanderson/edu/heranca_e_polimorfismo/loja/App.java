@@ -6,13 +6,14 @@ import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Atendente;
 import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Gerente;
 import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Usuario;
 import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Vendedor;
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
 
 /*
     TODO: Criar um sistema para integrar os métodos dos agentes:
 
     Métodos compartilhados:
         Realizar login
-        Realizar logff
+        Realizar logoff
         alterar dados
         alterar senha
 
@@ -33,6 +34,7 @@ import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Vendedor;
 
 public class App {
     static Scanner input = new Scanner(System.in);
+    static PlaniliaDeVenda planiliaDeVenda = new PlaniliaDeVenda();
     public static void main(String[] args) {
         Usuario usuario = selecionarAgente();
 
@@ -69,21 +71,21 @@ public class App {
                     nome  = definirNome();
                     email = definirEmail();
                     senha = definirSenha();
-                    return new Vendedor(nome, email, senha, 'v');
+                    return new Vendedor(nome, email, senha, 'v', planiliaDeVenda);
 
                 case 2:
                     continua = false;
                     nome  = definirNome();
                     email = definirEmail();
                     senha = definirSenha();
-                    return new Gerente(nome, email, senha, 'g');
+                    return new Gerente(nome, email, senha, 'g', planiliaDeVenda);
                     
                 case 1:
                     continua = false;
                     nome  = definirNome();
                     email = definirEmail();
                     senha = definirSenha();
-                    return new Atendente(nome, email, senha, 'a');
+                    return new Atendente(nome, email, senha, 'a', planiliaDeVenda);
 
                 default:
                     System.out.println("Escolha uma opção válida!");
@@ -94,45 +96,6 @@ public class App {
         return null;
     }
 
-    private static void mudarAgente(Usuario usuario){
-        int escolha;
-        Boolean continua = true;
-        do{
-            System.out.println("Quem está logando?\n" + //
-                                "[ 0 ] Sair      \n"   + //
-                                "[ 1 ] Atendente \n"   + //
-                                "[ 2 ] Gerente   \n"   + //
-                                "[ 3 ] Vendedor"
-                                );
-            escolha = informarNumero();
-
-            switch (escolha) {
-                case 0:
-                    System.exit(0);
-                    break;
-                    
-                case 1:
-                    continua = false;
-                    usuario.tipo = 'a';
-                    break;
-
-                case 2:
-                    continua = false;
-                    usuario.tipo = 'g';
-                    break;
-                    
-                case 3:
-                    continua = false;
-                    usuario.tipo = 'v';
-                    break;
-
-                default:
-                    System.out.println("Escolha uma opção válida!");
-                    break;
-            }
-            
-        }while(continua);
-    }
 
     static void sistema(Usuario usuario){
         boolean continuar = true;
@@ -140,7 +103,7 @@ public class App {
         do{
             System.out.println( "[ 0 ] Sair           \n"   + //
                                 "[ 1 ] Realizar login \n"   + //
-                                "[ 2 ] Realizar logff \n"   + //
+                                "[ 2 ] Realizar logoff \n"   + //
                                 "[ 3 ] alterar dados  \n"   + //
                                 "[ 4 ] alterar senha"
                                 );
@@ -202,7 +165,7 @@ public class App {
             if(escolha == 1){
                 if (! usuario.isLogado()) {
 
-                    mudarAgente(usuario);
+                    usuario = selecionarAgente();
     
                     String email = definirEmail();
                     String senha = definirSenha();
@@ -213,7 +176,7 @@ public class App {
                 }
             }
             
-            if(escolha == 2){
+             if(escolha == 2){
                 usuario.fazerLogoff();
             }
             
@@ -278,11 +241,11 @@ public class App {
         return id;
     }
 
-
     static String informarNomeProduto(){
         System.out.println("Informe o nome do produto:");
         return input.next();
     }
+
     static int    informarQuantidade(){
         boolean continua = true;
         int     quantidade = 0;
@@ -302,6 +265,7 @@ public class App {
         
         return quantidade;
     }
+
     static int    informarNumero(){
         boolean continua = true;
         int     valor = 0;

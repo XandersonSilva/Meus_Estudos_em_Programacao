@@ -43,15 +43,15 @@ public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
     //Objeto para gerenciamento de vendas pelos diferentes atores dessa classe
     
     
-    public Usuario(String  nome, String  email, String  senha, char tipo){
-        this.planiliaDeVenda = new PlaniliaDeVenda();
+    public Usuario(String  nome, String  email, String  senha, char tipo, PlaniliaDeVenda planiliaDeVenda){
+        this.planiliaDeVenda = planiliaDeVenda;
         this.nome            = nome;
         this.email           = email;
         this.senha           = senha;
         this.tipo            = tipo;
         
         
-        fazerLogin(email, senha);
+
     }
 
     public void alterarDados(String email, String nome) {

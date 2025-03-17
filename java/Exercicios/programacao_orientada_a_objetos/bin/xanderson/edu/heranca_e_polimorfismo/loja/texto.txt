@@ -1,0 +1,620 @@
+package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
+
+import java.util.List;
+
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
+public final class Atendente extends Usuario{
+/*
+    Atendente métodos:
+        Receber pagamentos
+        Fechar o caixa
+*/
+
+    
+    public Atendente(String nome, String email, String senha, char tipo, PlaniliaDeVenda planiliaDeVenda) {
+        super(nome, email, senha, tipo, planiliaDeVenda);
+        
+    }
+    
+
+    public void receberPagamento(Usuario usuario, int id){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
+        String[] vendaEmDebito = null;
+
+        if(!(usuario instanceof Atendente)){
+            System.out.println("Apenas atendentes podem receber pagamentos!");
+            return;    
+        }
+        for (String[] venda : planiliaDeVenda.getVendas()) {
+            if(Integer.valueOf(venda[4]) == id && !(Boolean.parseBoolean(venda[0]))){
+                vendaEmDebito = venda;
+            }
+        }
+        
+        if(vendaEmDebito == null){
+            System.out.println("Não há vendas não pagas referente ao id informado!");
+            return;    
+        }
+        
+        String pagamentoRealizado_Convert = String.valueOf(true);
+        String id_Convert = String.valueOf(id);
+
+        String[] vendaPaga = {pagamentoRealizado_Convert, vendaEmDebito[1], vendaEmDebito[2], vendaEmDebito[3], id_Convert};
+
+        planiliaDeVenda.atualizarVenda(vendaPaga, vendaEmDebito);
+
+    }
+
+    public void feicharCaixa(){
+       
+            if(!(this.logado)){
+                System.out.println("Você precissa fazer login para realizar essa ação!");
+                return;
+            }
+            List<String[]> vendas = planiliaDeVenda.getVendas();
+            double pago    = 0;
+            for (String[] venda : vendas) {
+                Boolean pagou =  venda[0] == "true" ? true : false;
+    
+                if(pagou){
+                    pago += Double.parseDouble(venda[3]);
+                }   
+            }
+            System.out.println("O valor atual do caixa é: R$ " + pago);
+        }
+    }
+
+package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
+import java.util.List;
+
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
+public final class Gerente extends Usuario{
+    /*
+    Gerente métodos 
+            Gerar relatório financeiro,
+            Consultar vendas
+    */
+
+    public Gerente(String nome, String email, String senha, char tipo, PlaniliaDeVenda planiliaDeVenda) {
+        super(nome, email, senha, tipo, planiliaDeVenda);
+        setAdministrador(true);
+    }
+    
+    public void gerarRelatórioFinanceiro(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
+        List<String[]> vendas = planiliaDeVenda.getVendas();
+        double pago    = 0;
+        double naoPago = 0;
+        for (String[] venda : vendas) {
+            Boolean pagou =  venda[0] == "true" ? true : false;
+
+            if(pagou){
+                pago += Double.parseDouble(venda[3]);
+            }else{
+                naoPago += Double.parseDouble(venda[3]);
+            }            
+        }
+        System.out.println("Lucro atual: R$"  + pago + "\n"+//
+                            "Valor não recebido: R$" + naoPago );
+    }
+    
+    public void consultarVendas(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
+        List<String[]> vendas = planiliaDeVenda.getVendas();
+        for (String[] venda : vendas) {
+
+            String pagamento =  venda[0] == "true" ? "Pagamento realizado" : "Pagamento pendente";
+            System.out.println(pagamento + "; nome do produto:" + venda[1] + ", quantidade: " + venda[2] + ", valorTotal: "+ venda[3] + ", id: " + venda[4]);
+        }
+    }
+}
+package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
+
+public sealed abstract class Usuario permits Atendente, Gerente, Vendedor{
+
+    /*  TODO criar classe usuário
+
+            Usuário atributos:
+                nome
+                email
+                senha
+                administrador
+
+            Usuário métodos: 
+                Realizar login,
+                Realizar logff,
+                alterar dados,
+                alterar senha;
+     */
+        
+
+    public    char            tipo; // Possibilidades: a:Atendente v:Vendedor g:Gerente
+    @SuppressWarnings("unused")
+    private   String          nome;
+    protected String          email;
+    protected String          senha;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    protected boolean         administrador;
+    protected boolean         logado;
+    
+
+    protected PlaniliaDeVenda planiliaDeVenda;
+    
+    
+    //Objeto para gerenciamento de vendas pelos diferentes atores dessa classe
+    
+    
+    public Usuario(String  nome, String  email, String  senha, char tipo, PlaniliaDeVenda planiliaDeVenda){
+        this.planiliaDeVenda = planiliaDeVenda;
+        this.nome            = nome;
+        this.email           = email;
+        this.senha           = senha;
+        this.tipo            = tipo;
+        
+        
+
+    }
+
+    public void alterarDados(String email, String nome) {
+        this.email = email;
+        this.nome = nome;
+    }
+
+    public void alterarSenha(String senha){
+        this.senha = senha;
+        System.out.println("Senha atualizada!");
+
+    }
+
+    public void fazerLogin(String email, String senha){
+        if(this.logado){
+            System.out.println("Você já está logado!");
+        }
+    
+        if (!getEmail().equals(email) || !getSenha().equals(senha)) {
+            System.out.println("Email ou senha incorretos!");
+            return;
+        }
+        this.logado = true;
+        System.out.println("Login realizado com sucesso!");
+    }
+
+    public void fazerLogoff(){
+        if(!this.logado){
+            System.out.println("Você precissa estár logado para fazer logoff!");
+            return;
+        }
+        this.logado = false;
+    }
+    
+    public boolean isAdministrador() {
+        return administrador;
+    }
+
+    protected void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
+    }
+
+    public boolean isLogado() {
+        return logado;
+    }
+}
+    package xanderson.edu.heranca_e_polimorfismo.loja.agentes;
+import java.util.concurrent.ThreadLocalRandom;
+
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
+import java.util.List;
+
+public final class Vendedor extends Usuario{
+
+    public Vendedor(String nome, String email, String senha, char tipo, PlaniliaDeVenda planiliaDeVenda) {
+        super(nome, email, senha, tipo, planiliaDeVenda);
+        this.administrador = false;
+    }
+
+    public void realizarVenda(String nomeProduto, int quantidade, Usuario usuario){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
+
+        if(!(usuario instanceof Vendedor)){
+            System.out.println("Apenas vendedores podem realizar vendas!");
+            return;    
+        }
+        
+        planiliaDeVenda.setId(planiliaDeVenda.getId()+1);
+        
+        String pagamentoRealizado_Convert = String.valueOf(false);
+        String quantidade_Convert = String.valueOf(quantidade);
+        String valorTotal_Convert = String.valueOf(gerarValor());
+        String id_Convert = String.valueOf(planiliaDeVenda.getId());
+
+        String[] venda = {pagamentoRealizado_Convert, nomeProduto, quantidade_Convert, valorTotal_Convert, id_Convert};
+
+        planiliaDeVenda.realizarVenda(venda);
+    }
+
+    public void consultarVendas(){
+        if(!(this.logado)){
+            System.out.println("Você precissa fazer login para realizar essa ação!");
+            return;
+        }
+        List<String[]> vendas = planiliaDeVenda.getVendas();
+        for (String[] venda : vendas) {
+            String pagamento =  venda[0] == "true" ? "Pagamento realizado" : "Pagamento pendente";
+            System.out.println(pagamento + "; nome do produto:" + venda[1] + ", quantidade: " + venda[2] + ", valorTotal: "+ venda[3] + ", id: " + venda[4]);
+        }
+    }
+
+    private double gerarValor(){
+        return ThreadLocalRandom.current().nextDouble(0, 10000);
+    }
+
+    
+}
+package xanderson.edu.heranca_e_polimorfismo.loja.armazenamento;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlaniliaDeVenda {
+    /*
+        ESTRUTURA DO ARRAY:
+            O Array vendas conterá sub-arrays cada um referente a uma venda realizada,
+            cada sub-array possuirá obrigatoriamente cinco valores: o primeiro indicando 
+            se o pagamento foi realizado, o segundo sendo o nome do produto, o terceiro
+            sendo a quantidade vendida, o quarto sendo o valor da venda e o quinto sendo o
+            identificador. Sendo todos String (por conta do java ser uma linguagem fortemente
+            tipada) cabendo ao desenvolvedor fazer as devidas conversões.
+        EXEMPLO:
+            [
+                [pagamentoRealizado, nomeProduto, quantidade, valorTotal, id]
+            ]
+    */
+    
+    private ArrayList<String[]> vendas;
+    private int id;
+
+
+    
+    public PlaniliaDeVenda() {
+        this.vendas = new ArrayList<String[]>();  // Inicializa a lista de vendas
+        this.id = 0;
+    }
+
+    public void realizarVenda(String[] venda) {
+        this.vendas.add(venda); 
+    }
+
+    public void pagarCompra(int id_venda){
+        for (String[] venda : vendas) {
+            if(String.valueOf(id_venda) == venda[4]){
+                venda[0] = String.valueOf(true);
+            }
+        }
+    }
+    
+    public void atualizarVenda(String[] vendaPaga, String[] vendaEmDebito) {
+        vendas.remove(vendaEmDebito);
+        vendas.add(vendaPaga);
+    }
+
+    public List<String[]> getVendas(){
+        return vendas;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}package xanderson.edu.heranca_e_polimorfismo.loja;
+
+import java.util.Scanner;
+
+import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Atendente;
+import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Gerente;
+import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Usuario;
+import xanderson.edu.heranca_e_polimorfismo.loja.agentes.Vendedor;
+import xanderson.edu.heranca_e_polimorfismo.loja.armazenamento.PlaniliaDeVenda;
+
+/*
+    TODO: Criar um sistema para integrar os métodos dos agentes:
+
+    Métodos compartilhados:
+        Realizar login
+        Realizar logoff
+        alterar dados
+        alterar senha
+
+    Atendente métodos:
+        Receber pagamentos
+        Fechar o caixa
+
+    Gerente métodos:
+        Gerar relatório financeiro
+        Consultar vendas
+
+    Vendedor métodos:
+        Realizar Venda
+        Consultar Vendas
+
+
+*/
+
+public class App {
+    static Scanner input = new Scanner(System.in);
+    static PlaniliaDeVenda planiliaDeVenda = new PlaniliaDeVenda();
+    public static void main(String[] args) {
+        Usuario usuario = selecionarAgente();
+
+        sistema(usuario);
+    
+    }
+
+    private static Usuario selecionarAgente(){
+        int escolha;
+        Boolean continua = true;
+        do{
+            @SuppressWarnings("unused")
+            Usuario usuario;
+            String nome ;
+            String email;
+            String senha;
+            System.out.println("Quem está logando?\n" + //
+                                "[ 0 ] Sair      \n"   + //
+                                "[ 1 ] Atendente \n"   + //
+                                "[ 2 ] Gerente   \n"   + //
+                                "[ 3 ] Vendedor"
+                                );
+            escolha = informarNumero();
+
+            
+
+            switch (escolha) {
+                case 0:
+                    System.exit(0);
+                    break;
+                    
+                case 3:
+                    continua = false;
+                    nome  = definirNome();
+                    email = definirEmail();
+                    senha = definirSenha();
+                    return new Vendedor(nome, email, senha, 'v', planiliaDeVenda);
+
+                case 2:
+                    continua = false;
+                    nome  = definirNome();
+                    email = definirEmail();
+                    senha = definirSenha();
+                    return new Gerente(nome, email, senha, 'g', planiliaDeVenda);
+                    
+                case 1:
+                    continua = false;
+                    nome  = definirNome();
+                    email = definirEmail();
+                    senha = definirSenha();
+                    return new Atendente(nome, email, senha, 'a', planiliaDeVenda);
+
+                default:
+                    System.out.println("Escolha uma opção válida!");
+                    break;
+            }
+            
+        }while(continua);
+        return null;
+    }
+
+
+    static void sistema(Usuario usuario){
+        boolean continuar = true;
+        int     escolha = -1;
+        do{
+            System.out.println( "[ 0 ] Sair           \n"   + //
+                                "[ 1 ] Realizar login \n"   + //
+                                "[ 2 ] Realizar logoff \n"   + //
+                                "[ 3 ] alterar dados  \n"   + //
+                                "[ 4 ] alterar senha"
+                                );
+            if (usuario.isLogado() && usuario.tipo == 'a') {         
+         
+         
+                System.out.println( "[ 5 ] Receber pagamentos \n"   + //
+                                    "[ 6 ] Fechar o caixa"
+                                );
+
+                escolha = informarNumero();
+                
+                if(escolha == 5){
+                    int id = informarIdCompra();
+                    ((Atendente)usuario).receberPagamento(usuario, id);
+                }
+
+                if(escolha == 6){
+                    ((Atendente)usuario).feicharCaixa();
+                }
+            } else if (usuario.isLogado() && usuario.tipo == 'g') {
+                System.out.println( "[ 5 ] Gerar relatório financeiro \n"   + //
+                                    "[ 6 ] Consultar vendas"
+                                );
+
+                escolha = informarNumero();
+                
+                if(escolha == 5){
+                    ((Gerente)usuario).gerarRelatórioFinanceiro();
+                }
+
+                if(escolha == 6){
+                    ((Gerente)usuario).consultarVendas();
+                }
+            } else if (usuario.isLogado() && usuario.tipo == 'v') {
+                System.out.println( "[ 5 ] Realizar Venda \n"   + //
+                                    "[ 6 ] Consultar Vendas"
+                                );
+
+                escolha = informarNumero();
+                
+                if(escolha == 5){
+                    String nomeProduto;
+                    int    quantidadeProduto;
+
+                    nomeProduto = informarNomeProduto();
+                    quantidadeProduto = informarQuantidade();
+
+                    ((Vendedor)usuario).realizarVenda(nomeProduto, quantidadeProduto, usuario);
+                }
+
+                if(escolha == 6){
+                    ((Vendedor)usuario).consultarVendas();
+                }
+            }else{
+                escolha = informarNumero();
+            }            
+
+            if(escolha == 1){
+                if (! usuario.isLogado()) {
+
+                    usuario = selecionarAgente();
+    
+                    String email = definirEmail();
+                    String senha = definirSenha();
+    
+                    usuario.fazerLogin(email, senha);
+                }else{
+                    System.out.println("Você já está logado!");
+                }
+            }
+            
+             if(escolha == 2){
+                usuario.fazerLogoff();
+            }
+            
+            if(escolha == 3){
+                String nome  = definirNome();
+                String email = definirEmail();
+
+                usuario.alterarDados(email, nome) ;
+            }
+            
+            if(escolha == 4){
+                System.out.println("Informe a nova senha");
+                String senha = input.next();
+
+                usuario.alterarSenha(senha);
+            }
+
+            if(escolha == 0){
+                continuar = false;
+            }
+        
+        
+        }while(continuar);
+    }
+
+    static String definirNome(){
+        System.out.println("informe o seu nome: ");
+        
+        String nome = input.next();
+        return nome;
+    }
+    static String definirEmail(){
+        System.out.println("informe o seu email: ");
+        
+        String email = (String)input.next();
+        return email;
+    }
+    static String definirSenha(){
+        System.out.println("informe o seu senha: ");
+        
+        String senha = (String)(input.next());
+        return senha;
+    }
+    
+    static int    informarIdCompra(){
+        boolean continua = true;
+        int     id       = 0;
+        
+        do{
+            System.out.println("Informe o ID da compra:");
+            try {
+                id = Integer.parseInt(input.next());
+                continua = false;
+                return id;
+
+            } catch (Exception e) {
+                System.out.println("Informe um valor válido!");
+            }
+
+        }while(continua);
+        
+        return id;
+    }
+
+    static String informarNomeProduto(){
+        System.out.println("Informe o nome do produto:");
+        return input.next();
+    }
+
+    static int    informarQuantidade(){
+        boolean continua = true;
+        int     quantidade = 0;
+        
+        do{
+            System.out.println("Informe a quantidade que deseja comprar:");
+            try {
+                quantidade = Integer.parseInt(input.next());
+                continua = false;
+                return quantidade;
+
+            } catch (Exception e) {
+                System.out.println("Informe um valor válido!");
+            }
+
+        }while(continua);
+        
+        return quantidade;
+    }
+
+    static int    informarNumero(){
+        boolean continua = true;
+        int     valor = 0;
+        
+        do{
+            try {
+                valor = Integer.parseInt(input.next());
+                continua = false;
+                return valor;
+
+            } catch (Exception e) {
+                System.out.println("Informe um valor válido!");
+            }
+
+        }while(continua);
+        
+        return valor;
+    }
+}
