@@ -21,6 +21,6 @@ public class Banco {
     }
 
     public void listarCientes(){
-        this.clientes.forEach(cliente -> System.out.println(cliente.toString()));
+        this.clientes.forEach(cliente -> cliente.dadosClientes().forEach(linha -> System.out.println(linha)));
     }
 }

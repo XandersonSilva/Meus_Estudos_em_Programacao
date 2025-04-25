@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public abstract class Cliente {
     public String nome;
-    protected long ID_CONTADOR = 000001;
+    protected long ID_CONTADOR = 10000;
     protected ArrayList<Conta> contas = new ArrayList<Conta>();
 
     public Cliente(){
         ID_CONTADOR ++;
     }
 
-    public void adicionarConta(long ID, Conta conta){
+    public void adicionarConta(Conta conta){
         this.contas.add(conta);
     }
 
@@ -23,6 +23,16 @@ public abstract class Cliente {
         }        
     } 
 
+    public ArrayList<String> dadosClientes(){
+        
+        ArrayList<String> ClientesDados = new ArrayList<>();
+        for (Conta conta : contas) {
+            String dado = "Titular: "+conta.getTitular() + " Agencia: "+ conta.getAgencia() + " Número: " + conta.getNumero();
+            ClientesDados.add(dado);
+        }
+        return ClientesDados;
+
+    }
 }
 
 
