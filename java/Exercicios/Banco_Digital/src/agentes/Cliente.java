@@ -4,7 +4,8 @@ import conta.Conta;
 import java.util.ArrayList;
 
 public abstract class Cliente {
-    public String nome;
+    protected   String nome;
+    protected   String senha;
     protected long ID_CONTADOR = 10000;
     protected ArrayList<Conta> contas = new ArrayList<Conta>();
 
@@ -23,16 +24,28 @@ public abstract class Cliente {
         }        
     } 
 
-    public ArrayList<String> dadosClientes(){
-        
-        ArrayList<String> ClientesDados = new ArrayList<>();
+    public ArrayList<?> dadosClientes(){
+        ArrayList<ArrayList<?>> ClientesDados = new ArrayList<>();
+
         for (Conta conta : contas) {
-            String dado = "Titular: "+conta.getTitular() + " Agencia: "+ conta.getAgencia() + " Número: " + conta.getNumero();
+            ArrayList<String> dado = new ArrayList<>();
+            dado.add(conta.getTitular());
+            dado.add(String.valueOf(conta.getAgencia()));
+            dado.add(String.valueOf(conta.getNumero()));
+
             ClientesDados.add(dado);
         }
         return ClientesDados;
+    }
 
+    public boolean compararSenha(String senha){
+        if (this.senha == senha)
+            return true;
+        else
+            return false;
+    }
+    
+    public String getNome() {
+        return nome;
     }
 }
-
-

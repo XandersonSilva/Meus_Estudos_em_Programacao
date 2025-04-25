@@ -2,6 +2,7 @@ package banco;
 import java.util.ArrayList;
 
 import agentes.Cliente;
+import conta.Conta;
 
 public class Banco {
     private String nome;
@@ -20,7 +21,25 @@ public class Banco {
         this.clientes.add(cliente);
     }
 
-    public void listarCientes(){
+    public void listarClientes(){
         this.clientes.forEach(cliente -> cliente.dadosClientes().forEach(linha -> System.out.println(linha)));
+    }
+
+    public Cliente logar(String nome, String Senha) throws Exception{
+        for(Cliente cliente : clientes){
+            if(cliente.getNome() == nome && cliente.compararSenha(Senha))
+                return cliente;
+        }
+        return null;
+    }
+
+    public void realizarTransferencia(int agencia, int numero, double valor){
+        this.clientes.forEach(cliente -> {
+            try {
+                cliente.receberTransferencia(agencia, numero, valor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

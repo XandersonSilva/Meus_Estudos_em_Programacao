@@ -39,7 +39,11 @@ public abstract class Conta {
         return this.NUMERO;
     }
 
+    public double consultar_saldo(){
+        return this.saldo;
+    }
+
     public String getTitular(){
-        return this.titular.nome;
+        return this.titular.getNome();
     }
 }
