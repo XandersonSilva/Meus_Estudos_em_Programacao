@@ -58,5 +58,10 @@ public class ContaCorrente extends Conta{
         banco.realizarTransferencia(agencia, numero, valor);
         this.saldo -= valor;
     }
+
+    @Override
+    public double consultar_saldo(){
+        return this.saldo+= this.linhaCredito;
+    }
     
 }

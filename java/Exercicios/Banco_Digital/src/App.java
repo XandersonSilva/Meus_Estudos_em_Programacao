@@ -184,7 +184,7 @@ public class App {
                 double valor = inputFlutuante();
 
                 contaBanco.transferir(banco, agencia, numero, valor);
-                //Já são dois dias tentando fazer essa função funcionar, sinceramente, desisto
+                
             }
         }while(continuar != 0);
     }
