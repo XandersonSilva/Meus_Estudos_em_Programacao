@@ -1,5 +1,4 @@
 package agentes;
-
 import conta.Conta;
 import java.util.ArrayList;
 
@@ -32,18 +31,24 @@ public abstract class Cliente {
             dado.add(conta.getTitular());
             dado.add(String.valueOf(conta.getAgencia()));
             dado.add(String.valueOf(conta.getNumero()));
+            dado.add(String.valueOf(conta.consultar_saldo()));
 
             ClientesDados.add(dado);
         }
         return ClientesDados;
     }
-
-    public boolean compararSenha(String senha){
-        if (this.senha == senha)
-            return true;
-        else
-            return false;
+    
+    public Conta buscarConta(int agencia, int numero){
+        for(Conta conta : contas){
+            
+            if(conta.validarAgenciaNumero(agencia, numero)) return conta;
+        }
+        return null;
     }
+    
+    public abstract boolean validarLogin(String CPF_OU_CNPJ, String senha);
+    
+    public abstract int hashCode();
     
     public String getNome() {
         return nome;

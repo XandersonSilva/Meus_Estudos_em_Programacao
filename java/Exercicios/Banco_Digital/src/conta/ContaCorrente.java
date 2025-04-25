@@ -1,6 +1,7 @@
 package conta;
 
 import agentes.Cliente;
+import banco.Banco;
 
 //REGRA DE NEGOCIO:
 // A linha de credito será implementada seguindo a seguintes diretrizes:
@@ -10,14 +11,18 @@ import agentes.Cliente;
 
 
 public class ContaCorrente extends Conta{
-
-    double linhaCredito;
-
+    private double linhaCredito;
+    
+    
     public ContaCorrente(Cliente cliente, double primeiroDeposito) throws Exception{
         super(cliente);
-        if (primeiroDeposito <= 0)
-            throw new Exception("O valor depositado deve ser maior que 0");
-            
+        this.AGENCIA  = 10110;
+        this.saldo   += primeiroDeposito;
+        
+        if (primeiroDeposito <= 0){
+            System.out.println("O valor depositado deve ser maior que 0");
+            return;
+        }
         if(primeiroDeposito >= 3000){
             this.linhaCredito = 500 + primeiroDeposito * 0.25;
             return;
@@ -28,21 +33,30 @@ public class ContaCorrente extends Conta{
 
     @Override
     public void sacar(double valor) {
-        if(valor < 0)
-            throw new UnsupportedOperationException("Valor inválido para operação");
-        if(this.saldo - valor < -linhaCredito)
-            throw new UnsupportedOperationException("Saldo insuficiente para operação");
+        if(valor < 0){
+            System.out.println("Valor inválido para operação");
+            return;
+        }
+        if(this.saldo - valor < -linhaCredito){
+            System.out.println("Saldo insuficiente para operação");
+            return;
+        };
         this.saldo -= valor;
     }
     
     @Override
-    public void transferir(Cliente destinatario, int agencia, int numero, double valor) throws Exception{
-        if(valor < 0)
-            throw new UnsupportedOperationException("Valor inválido para operação");
-        if(this.saldo - valor < -linhaCredito)
-            throw new UnsupportedOperationException("Saldo insuficiente para operação");
+    public void transferir(Banco banco, int agencia, int numero, double valor) throws Exception{
+        if(valor < 0){
+            System.out.println("Valor inválido para operação");
+            return;
+        }
+        if(this.saldo - valor < -linhaCredito){
+            System.out.println("Saldo insuficiente para operação");
+            return;
+        }
 
-        destinatario.receberTransferencia(numero, agencia, valor);
+        banco.realizarTransferencia(agencia, numero, valor);
         this.saldo -= valor;
     }
+    
 }

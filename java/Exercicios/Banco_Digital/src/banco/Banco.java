@@ -1,13 +1,13 @@
 package banco;
-import java.util.ArrayList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import agentes.Cliente;
-import conta.Conta;
 
 public class Banco {
     private String nome;
-
-    private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+    private Set<Cliente> clientes = new HashSet<Cliente>();
 
     public Banco(String nome){
         this.nome = nome;
@@ -25,14 +25,6 @@ public class Banco {
         this.clientes.forEach(cliente -> cliente.dadosClientes().forEach(linha -> System.out.println(linha)));
     }
 
-    public Cliente logar(String nome, String Senha) throws Exception{
-        for(Cliente cliente : clientes){
-            if(cliente.getNome() == nome && cliente.compararSenha(Senha))
-                return cliente;
-        }
-        return null;
-    }
-
     public void realizarTransferencia(int agencia, int numero, double valor){
         this.clientes.forEach(cliente -> {
             try {
@@ -41,5 +33,13 @@ public class Banco {
                 e.printStackTrace();
             }
         });
+    }
+
+    public Cliente buscarCliente(String CPF_OU_CNPJ, String senha){
+        for(Cliente cliente : clientes){
+            if(cliente.validarLogin(CPF_OU_CNPJ, senha))
+                return cliente;
+        }
+        return null;
     }
 }
