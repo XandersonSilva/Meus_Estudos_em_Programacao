@@ -22,22 +22,22 @@ public class NovoJogo {
 
     Map<Integer, Map<Integer, Quadrado>>  a =  desfazerRepeticoesParteTabuleiro(linhas);
 
-    private boolean validarNumero(int numero){
-        boolean haRepeticoes = true;
+    private Map<Integer, Map<Integer, Quadrado>> gerarColunas(Map<Integer, Map<Integer, Quadrado>> origem){
         Map<Integer, Quadrado> coluna = new LinkedHashMap<>();
-        Map<Integer, Quadrado> ilha_3_x_3 = new LinkedHashMap<>();
-        //
+        
         for (int aux = 0; aux < 9; aux++){
             coluna = new LinkedHashMap<>();
             int contador = 0;
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    if(aux == j){ coluna.put(contador  ++, linhas.get(j).get(i));}
+                    if(aux == j){ coluna.put(contador  ++, origem.get(j).get(i));}
                 }
             }
             colunas.put(aux, coluna);
         }
-
+        return colunas;    
+    }
+    private Map<Integer, Map<Integer, Quadrado>> gerarIlhas(Map<Integer, Map<Integer, Quadrado>> origem){
         for (int ilha = 0; ilha < 9; ilha++) {
             Map<Integer, Quadrado> ilha_3x3 = new LinkedHashMap<>();
         
@@ -47,16 +47,13 @@ public class NovoJogo {
             int k = 0;
             for (int i = linhaInicio; i < linhaInicio + 3; i++) {
                 for (int j = colunaInicio; j < colunaInicio + 3; j++) {
-                    ilha_3x3.put(k++, linhas.get(i).get(j));
+                    ilha_3x3.put(k++, origem.get(i).get(j));
                 }
             }
         
             ilhas_3_x_3.put(ilha, ilha_3x3);
         }
-
-    
-    
-    return false;    
+        return ilhas_3_x_3;
     }
 
 
