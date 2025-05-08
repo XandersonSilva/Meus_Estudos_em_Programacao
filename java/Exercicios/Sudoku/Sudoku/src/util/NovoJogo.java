@@ -14,17 +14,17 @@ import java.util.Set;
 import entidades.Quadrado;
 
 public class NovoJogo {
-    Random random = new Random();
+    static final Random random = new Random();
 
-    private Map<Integer, Map<Integer, Quadrado>> linhas = gerarListaInicial();
-    private Map<Integer, Map<Integer, Quadrado>> colunas = linhas2Colunas(linhas);
-    private Map<Integer, Map<Integer, Quadrado>> ilhas_3_x_3 = linhas2Ilhas(linhas);
-    public  Map<Integer, Map<Integer, Quadrado>> tabuleiro = gerarTabuleriro();
-    public  boolean jogoValido = false;
+    private static Map<Integer, Map<Integer, Quadrado>> linhas = gerarListaInicial();
+    private static Map<Integer, Map<Integer, Quadrado>> colunas = linhas2Colunas(linhas);
+    private static Map<Integer, Map<Integer, Quadrado>> ilhas_3_x_3 = linhas2Ilhas(linhas);
+    public  static Map<Integer, Map<Integer, Quadrado>> tabuleiro = gerarTabuleriro();
+    public  static boolean jogoValido = false;
 
     
-    public Map<Integer, Map<Integer, Quadrado>> gerarTabuleriro(){
-        for(int i = 0; i<10000000; i++) {
+    public static Map<Integer, Map<Integer, Quadrado>> gerarTabuleriro(){
+        for(int i = 0; i<1000000; i++) {
             if (verificarRepeticoes(linhas)) {
                 linhas = desfazerRepeticoesParteTabuleiro(linhas);
                 colunas = linhas2Colunas(linhas);
@@ -51,11 +51,7 @@ public class NovoJogo {
     return linhas;
     }
 
-
-
-
-
-    private Map<Integer, Map<Integer, Quadrado>> linhas2Colunas(Map<Integer, Map<Integer, Quadrado>> origem){
+    private static Map<Integer, Map<Integer, Quadrado>> linhas2Colunas(Map<Integer, Map<Integer, Quadrado>> origem){
         Map<Integer, Map<Integer, Quadrado>> colunas = new LinkedHashMap<>();
         Map<Integer, Quadrado> coluna = new LinkedHashMap<>();
         
@@ -72,7 +68,7 @@ public class NovoJogo {
         }
         return colunas;    
     }
-    private Map<Integer, Map<Integer, Quadrado>> colunas2Linhas(Map<Integer, Map<Integer, Quadrado>> origem){
+    private static Map<Integer, Map<Integer, Quadrado>> colunas2Linhas(Map<Integer, Map<Integer, Quadrado>> origem){
         Map<Integer, Quadrado> linha = new LinkedHashMap<>();
         
         for (int aux = 0; aux < 9; aux++){
@@ -89,7 +85,7 @@ public class NovoJogo {
         return linhas;    
     }
 
-    private Map<Integer, Map<Integer, Quadrado>> linhas2Ilhas(Map<Integer, Map<Integer, Quadrado>> origem){
+    private static Map<Integer, Map<Integer, Quadrado>> linhas2Ilhas(Map<Integer, Map<Integer, Quadrado>> origem){
         Map<Integer, Map<Integer, Quadrado>> ilhas_3x3 = new LinkedHashMap<>();
         for (int ilha = 0; ilha < 9; ilha++) {
             Map<Integer, Quadrado> ilha_3x3 = new LinkedHashMap<>();
@@ -109,7 +105,7 @@ public class NovoJogo {
         return ilhas_3x3;
     }
 
-    private Map<Integer, Map<Integer, Quadrado>> ilhas2Linhas(Map<Integer, Map<Integer, Quadrado>> origem){
+    private static Map<Integer, Map<Integer, Quadrado>> ilhas2Linhas(Map<Integer, Map<Integer, Quadrado>> origem){
         Map<Integer, Map<Integer, Quadrado>> linhas_ = new HashMap<>();
         for (int i = 0; i < 9; i++) {
             linhas_.put(i, new HashMap<>());  // cada linha começa vazia
@@ -134,7 +130,7 @@ public class NovoJogo {
     }
 
 
-    public Map<Integer, Map<Integer, Quadrado>> gerarListaInicial(){
+    public static Map<Integer, Map<Integer, Quadrado>> gerarListaInicial(){
         Map<Integer, Map<Integer, Quadrado>> linhas = new LinkedHashMap<>();
         List<Boolean> fixos  = gerarPossicoesFixas();
         
@@ -148,7 +144,7 @@ public class NovoJogo {
         return linhas;
     }
 
-    public List<Boolean> gerarPossicoesFixas(){
+    public static List<Boolean> gerarPossicoesFixas(){
         List<Integer> sortidos_fixos = new ArrayList<>();
         List<Boolean> fixos = new ArrayList<>();
         for(int a = 1; a <5; a++){
@@ -170,7 +166,7 @@ public class NovoJogo {
         return fixos;
     };
 
-    private Set<Integer> verificarRepeticoesLinha(Map<Integer, Quadrado> lista){
+    private static Set<Integer> verificarRepeticoesLinha(Map<Integer, Quadrado> lista){
         Map<Integer, Integer> contagem = new HashMap<>();
         Set<Integer> repetidos = new HashSet<>();
     
@@ -188,7 +184,7 @@ public class NovoJogo {
     
         return repetidos;
     }
-    private boolean verificarRepeticoes(Map<Integer, Map<Integer, Quadrado>> lista_){
+    private static boolean verificarRepeticoes(Map<Integer, Map<Integer, Quadrado>> lista_){
         int contador = 0;
         
         for (int i = 0; i < 9; i++) {
@@ -209,7 +205,7 @@ public class NovoJogo {
         return contador > 0 ? true : false;
     }
 
-    private Map<Integer, Map<Integer, Quadrado>> desfazerRepeticoesParteTabuleiro(Map<Integer, Map<Integer, Quadrado>> linhas_){
+    private static Map<Integer, Map<Integer, Quadrado>> desfazerRepeticoesParteTabuleiro(Map<Integer, Map<Integer, Quadrado>> linhas_){
         Map<Integer, Map<Integer, Quadrado>> linhasInterna = new LinkedHashMap();
         for (int i = 0; i < 9; i++) {
             Map<Integer, Quadrado> linha = new LinkedHashMap<>();

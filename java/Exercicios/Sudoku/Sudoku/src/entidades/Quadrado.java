@@ -2,7 +2,7 @@ package entidades;
 
 public class Quadrado {
     private int     numero;
-    public  int     atual;
+    private  int     atual = 0;
     private boolean fixo       = false;
     private boolean preenchido = false;
     
@@ -10,20 +10,28 @@ public class Quadrado {
         this.numero     = numero;
         this.preenchido = true;
         this.fixo       = fixo;
+        if(fixo){
+            this.atual = this.numero;
+        }
     }
     
     public boolean verificaCorreto(){
         //Retorna se o número que o usuário informou está correto
-        return true ? this.atual == this.numero : false;
+        return this.atual == this.numero ? true : false;
     }
 
 
-    public void preencerNumero(int numero){
+    public void atualizarAtual(int numero){
         if(this.fixo)return;
         
-        this.numero = numero;
+        this.atual = numero;
         this.preenchido = true;
     };
+
+    public int pegarAtual(){
+        return atual;
+    }
+
 
     public boolean estaPreencido(){
         return this.preenchido;
