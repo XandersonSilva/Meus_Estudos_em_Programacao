@@ -40,19 +40,39 @@ public class App {
             }
         }
    }
+   static int inputNumero(String mensagem){
+    System.out.println(mensagem);
+    while (true) {
+        try {
+        return Integer.parseInt(input.nextLine()); 
+        } catch (Exception e) {
+            System.out.println("informe um numero válido");
+        }
+    }
+}
    static void sistema(int entrada, Grade grade){
+    int linha ;
+    int coluna;
     switch (entrada) {
         case 1:
             System.out.println(grade.iniciarJogo() ? "Jogo inicializado" : "Termine o jogo atual para realizar essa ação!");
             break;
         case 2:
-            
+            linha  = inputNumero("Informe a linha desejada:");
+            coluna = inputNumero("Informe a coluna desejada:"); 
+            int numero = inputNumero("Informe o número a ser inserido:"); 
+        
+            colocarNovoNumero(linha, coluna, numero, grade);
             break;
         case 3:
+            linha  = inputNumero("Informe a linha desejada:");
+            coluna = inputNumero("Informe a coluna desejada:"); 
             
+            removerNumero(linha, coluna, grade);
             break;
         case 4:
             if (grade.isJogando()) {
+                System.out.println(grade.verificarJogo());
                 System.out.println("O jogo contem " + grade.contarErros() + " erros e " + grade.haVazios() + "espaços vazios!");
             }else{
                 System.out.println("Jogo não iniciado!");
@@ -76,5 +96,30 @@ public class App {
             System.out.println("Opção inválida! Tente novamente");
             break;
     }
+   }
+
+   static void colocarNovoNumero(int linha, int coluna, int numero, Grade grade){
+        if(!grade.isJogando()) {
+            System.out.println("Inicie o jogo para realizar essa ação!");
+            return;
+        }
+        if(grade.preencherCedula(linha, coluna, numero)){
+            System.out.println("Número " + numero+ " alocado na linha:" + linha + " e couna: "+ coluna);
+            return;
+        }
+        System.out.println("Não é possível realizar a ação pois o espaço informado já está preenchido!");
+
+   }
+
+   static void removerNumero(int linha, int coluna, Grade grade){
+        if(!grade.isJogando()) {
+            System.out.println("Inicie o jogo para realizar essa ação!");
+            return;
+        }
+        if (grade.limparCedula(linha, coluna)) {
+            System.out.println("Número alocado na linha:" + linha + " e couna: " + coluna + " foi removido.");
+            return ;
+        }
+        System.out.println("Não é possível realizar a ação com a possição informada!");
    }
 }
