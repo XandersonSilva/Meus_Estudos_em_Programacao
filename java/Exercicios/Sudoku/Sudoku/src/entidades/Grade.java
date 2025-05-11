@@ -50,7 +50,7 @@ public class Grade{
     }
 
     public boolean terminarJogo(){
-        if (this.haVazios() != 0 && this.contarErros() == 0) {
+        if (this.haVazios() == 0 && this.contarErros() == 0) {
             jogando = false;
             return true;
         }
@@ -58,13 +58,13 @@ public class Grade{
     }
 
     public boolean preencherCedula(int linha, int coluna, int numero){
-        if(grade.get(linha).get(coluna).estaFixo() ||
-           grade.get(linha).get(coluna).pegarAtual() != 0 ||
+        if(grade.get(linha -1).get(coluna -1).estaFixo() ||
+           grade.get(linha -1).get(coluna -1).pegarAtual() != 0 ||
            numero > 9 ||
            numero < 1
            ){return false;}
 
-        grade.get(linha).get(coluna).atualizarAtual(numero);
+        grade.get(linha -1).get(coluna -1).atualizarAtual(numero);
         return true;
     }
 
@@ -94,19 +94,22 @@ public class Grade{
     }
 
     public String verificarJogo(){
-        String jogo = "  | 1 |  | 2 |  | 3 |  | 4 |  | 5 |  | 6 |  | 7 |  | 8 |  | 9 | \n";
+        String jogo = "  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | \n";
+        jogo += "----------------------------------------\n";
         for (int i = 0; i < 9; i++) {
             jogo += i+1;
+            jogo += " |";
             for (int j = 0; j < 9; j++) {
                 if ( grade.get(i).get(j).pegarAtual() !=0)
-                    jogo += " | " + grade.get(i).get(j).pegarAtual() + " | ";
+                    jogo += " " + grade.get(i).get(j).pegarAtual() + " |";
                 else{
-                    jogo += " |   | ";
+                    jogo += "   |";
                 }
             }
             jogo += "\n";
+            jogo += "----------------------------------------\n";
         }
-        jogo += "  | 1 |  | 2 |  | 3 |  | 4 |  | 5 |  | 6 |  | 7 |  | 8 |  | 9 | ";
+        jogo += "  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | ";
         return jogo;
 
     }

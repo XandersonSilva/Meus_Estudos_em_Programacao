@@ -73,7 +73,7 @@ public class App {
         case 4:
             if (grade.isJogando()) {
                 System.out.println(grade.verificarJogo());
-                System.out.println("O jogo contem " + grade.contarErros() + " erros e " + grade.haVazios() + "espaços vazios!");
+                System.out.println("O jogo contem " + grade.contarErros() + " erros e " + grade.haVazios() + " espaços vazios!");
             }else{
                 System.out.println("Jogo não iniciado!");
             }
@@ -104,7 +104,7 @@ public class App {
             return;
         }
         if(grade.preencherCedula(linha, coluna, numero)){
-            System.out.println("Número " + numero+ " alocado na linha:" + linha + " e couna: "+ coluna);
+            System.out.println("Número " + numero+ " alocado na linha: " + linha + " e coluna: "+ coluna);
             return;
         }
         System.out.println("Não é possível realizar a ação pois o espaço informado já está preenchido!");
