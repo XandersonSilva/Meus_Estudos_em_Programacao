@@ -1,0 +1,4 @@
+CREATE TABLE modules(
+    id BIGINT NOT NULL auto_increment PRIMARY KEY,
+    name VARCHAR(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

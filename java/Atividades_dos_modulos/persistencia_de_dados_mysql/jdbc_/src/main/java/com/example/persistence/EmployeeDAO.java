@@ -1,4 +1,4 @@
-package com.example.persistence.entity;
+package com.example.persistence;
 
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import com.example.persistence.ConnectionUtil;
+import com.example.persistence.entity.EmployeeEntity;
 import com.mysql.cj.jdbc.StatementImpl;
 
 import java.util.ArrayList;
@@ -37,6 +37,26 @@ public class EmployeeDAO {
             // TODO: handle exception
         }
     }
+
+    // public void insertWithProcedure(final EmployeeEntity entity){
+    //     try (
+    //         Connection connection = ConnectionUtil.getConnection();
+    //         Statement statement = connection.createStatement()){
+    //             String sql = "INSERT INTO employees (nome, salary, birthday) values ('"+
+    //              entity.getNome() +"', "+
+    //              entity.getSalary().toString() +", '"+
+    //              formatOffsetDateTime(entity.getBirthday()) +"'  )";
+
+    //             statement.executeUpdate(sql);
+
+    //             System.out.printf("Foram afetados %s registros na base de dados", statement.getUpdateCount());
+    //             if(statement instanceof StatementImpl impl){
+    //                 entity.setId(impl.getLastInsertID());
+    //             }
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+    // }
 
     public void update(final EmployeeEntity entity){
     try (
