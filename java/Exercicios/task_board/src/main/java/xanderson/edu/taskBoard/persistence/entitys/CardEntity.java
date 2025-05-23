@@ -8,6 +8,7 @@ private long board_id;
 private String title;
 private String description;
 private OffsetDateTime crate_at;
+private boolean blocked;
 private String blockin_reason;
 private String unblockin_reason;
 }

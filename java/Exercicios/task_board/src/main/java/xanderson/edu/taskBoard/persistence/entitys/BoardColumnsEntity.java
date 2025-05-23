@@ -2,17 +2,17 @@ package xanderson.edu.taskBoard.persistence.entitys;
 
 import java.util.List;
 
-public class BoardColumsEntity {
+public class BoardColumnsEntity {
     
 private long id;
 
 private long board_id;
 
-private String name;
+private String title;
 
 private String kind;
 
-private int order;
+private int _order;
 
 private List<CardEntity> cards;
 
