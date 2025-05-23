@@ -11,7 +11,7 @@ import java.sql.Connection;
 public class ConnectionUtil{
 
     public static Connection getConnection() throws SQLException  {
-        return DriverManager.getConnection("jdbc://localhost:3306/task_board", "root", "root");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/task_board", "root", "root");
     };
 
 }

@@ -3,9 +3,9 @@ CREATE TABLE cards(
     column_id BIGINT NOT NULL,
     title VARCHAR(250) NOT NULL,
     description VARCHAR(512) NOT NULL,
-    crate_at TIMESTAMP NOT NULL,
-    blocked BOOLEAN NOT NULL,
+    create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    blocked BOOLEAN NOT NULL DEFAULT 0,
     blockin_reason VARCHAR(512),
     unblockin_reason VARCHAR(512),
-    CONSTRAINT fk_column_id FOREIGN KEY (column_id) REFERENCES board_columns(id)
+    CONSTRAINT fk_column_id FOREIGN KEY (column_id) REFERENCES board_columns(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
