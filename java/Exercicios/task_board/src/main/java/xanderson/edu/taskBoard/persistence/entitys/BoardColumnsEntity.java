@@ -22,6 +22,10 @@ private int _order;
 private List<CardEntity> cards;
 
 @Setter(AccessLevel.NONE)
-private List<String> kinds = List.of("INITIAL", "PENDING", "FINAL", "CANCELLATION" );
+private static List<String> kinds = List.of("INITIAL", "PENDING", "FINAL", "CANCELLATION" );
+
+public static List<String> getKinds(){
+    return kinds;
+}
 
 }
