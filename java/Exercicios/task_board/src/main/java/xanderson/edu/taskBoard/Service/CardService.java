@@ -1,8 +1,5 @@
 package xanderson.edu.taskBoard.Service;
 
-
-import java.util.List;
-
 import xanderson.edu.taskBoard.persistence.CardDAO;
 import xanderson.edu.taskBoard.persistence.entitys.BoardColumnsEntity;
 import xanderson.edu.taskBoard.persistence.entitys.BoardEntity;
@@ -18,7 +15,7 @@ public class CardService{
         cardDAO.insert(initialColumnId, title, description);
     }
 
-    public boolean moveCard(BoardEntity board, long cardId){
+    public static boolean moveCard(BoardEntity board, long cardId){
         CardEntity card = cardDAO.find(cardId);
         if (card.isBlocked()) return false;
 
@@ -42,18 +39,18 @@ public class CardService{
         return true;
     }
 
-    public void cancelCard(BoardEntity board, long cardId){
+    public static void cancelCard(BoardEntity board, long cardId){
         int lastColumn = board.getColunas().size() -1;
         long cancelColumnId = board.getColunas().get(lastColumn).getId();
 
         cardDAO.updateCancelCard(cardId, cancelColumnId);
     }
 
-    public void blockCard(long id, String reason){
+    public static void blockCard(long id, String reason){
         cardDAO.updateBlockCard(id, reason);
     }
 
-    public void unblockCard(long id, String reason){
+    public static void unblockCard(long id, String reason){
         cardDAO.updateUnblockCard(id, reason);
     }
 }

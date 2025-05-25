@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import xanderson.edu.taskBoard.Service.BoardService;
+import xanderson.edu.taskBoard.persistence.entitys.BoardEntity;
 
 public class InitialMenu {
     private static Scanner input = new Scanner(System.in);
@@ -13,41 +14,45 @@ public class InitialMenu {
 
     
     public static void menu(){
-        System.out.println("1 Criar novo Board");
-        System.out.println("2 Listar Boards");
-        System.out.println("3 Selecionar Board");
-        System.out.println("4 Deletar Board");
-        System.out.println("5 Sair");
-        System.out.println("");
+        while (true) {
+            System.out.println("\n");
+            System.out.println("1 Criar novo Board");
+            System.out.println("2 Listar Boards");
+            System.out.println("3 Selecionar Board");
+            System.out.println("4 Deletar Board");
+            System.out.println("5 Sair");
+            System.out.println("\n");
 
 
-        int escolha = inputInt();
-        switch (escolha) {
-            case 1:
-                createNewBoard();
+            int escolha = inputInt();
+            switch (escolha) {
+                case 1:
+                    createNewBoard();
+                    break;
+                case 2:
+                    listBoards();
+                    break;
+                case 3:
+                    BoardMenu.menu(selectBoard());
+                    break;
+                case 4:
+                    deleteBoard();
                 break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            case 4:
-                
-                break;
-            case 5:
+                case 5:
                 System.out.println("Programa encerrado!");
+                System.exit(escolha);
                 break;
-            
-            default:
+                
+                default:
                 System.out.println("Opção inválida!");;
+            }
         }
         
     }
 
 
     private static void createNewBoard(){
-        System.out.println("Informe o titulo para o board: ");
+        System.out.println("Informe o nome do board: ");
         String title = input.nextLine();
         List<String> columnsTitles = new ArrayList();
         
@@ -79,6 +84,36 @@ public class InitialMenu {
         columnsTitles.add(input.nextLine());
         boardService.createBoard(title, columnsTitles);
 
+    }
+
+    private static void listBoards(){
+        List<BoardEntity> boards = BoardService.findAll();
+        int i = 1;
+        System.out.println("\n");
+        String linha = "----------------------------------------";
+        System.out.println(linha);
+        for (BoardEntity b : boards) {
+            System.out.println((i++) + " | " + b.getBoard_name());
+            System.out.println(linha);
+        }
+        System.out.println("\n");
+
+    }
+
+    private static BoardEntity selectBoard(){
+        int selectedBoardByUser = inputInt("Informe o número referente ao board de acordo com a opção 2 (Listar Boards): ");
+        List<BoardEntity> boards = BoardService.findAll();
+        long boardID = boards.get(selectedBoardByUser -1).getId();
+
+        return boardService.findByID(boardID);
+    }
+
+    private static void deleteBoard(){
+        int selectedBoardByUser = inputInt("Informe o número referente board ao que deseja deletar de acordo com a opção 2 (Listar Boards): ");
+        List<BoardEntity> boards = BoardService.findAll();
+        long boardID = boards.get(selectedBoardByUser -1).getId();
+
+        boardService.delete(boardID);
     }
 
     private static int inputInt(){

@@ -55,6 +55,10 @@ public class BoardService {
         );
     }
 
+    public static List<BoardEntity> findAll(){
+        return boardDAO.findAll();
+    }
+
     public static BoardEntity findByID(long id){
         return boardDAO.findByID(id);
     }

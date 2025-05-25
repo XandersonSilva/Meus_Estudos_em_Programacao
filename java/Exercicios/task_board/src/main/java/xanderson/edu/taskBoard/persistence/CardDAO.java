@@ -2,14 +2,11 @@ package xanderson.edu.taskBoard.persistence;
 
 import static java.time.ZoneOffset.UTC;
 
-import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.OffsetDateTime;
-import java.util.TimeZone;
 
-import xanderson.edu.taskBoard.persistence.entitys.BoardEntity;
 import xanderson.edu.taskBoard.persistence.entitys.CardEntity;
 
 public class CardDAO {

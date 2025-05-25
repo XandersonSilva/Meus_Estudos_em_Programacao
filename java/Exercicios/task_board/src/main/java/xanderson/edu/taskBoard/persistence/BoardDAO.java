@@ -3,7 +3,6 @@ package xanderson.edu.taskBoard.persistence;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,6 @@ public class BoardDAO {
             ResultSet resultSet = statement_board.getResultSet();
             Boolean hasNext = resultSet.next();
             while (hasNext) {
-                List<BoardColumnsEntity> boardColumnsList = new ArrayList<>();
                 BoardEntity entity = new BoardEntity();
                 entity.setBoard_name(resultSet.getString("board_name"));
                 entity.setId(resultSet.getLong("id"));
