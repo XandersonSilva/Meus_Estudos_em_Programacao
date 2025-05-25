@@ -3,6 +3,8 @@ package xanderson.edu.taskBoard.persistence;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+
+// columns kind can be: INITIAL, PENDING, CANCELLATION, FINAL
 public class BoardColumnsDAO{
 
     public void insert(long board_id,String title,String kind,int _order){

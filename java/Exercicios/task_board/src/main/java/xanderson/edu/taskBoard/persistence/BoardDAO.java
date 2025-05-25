@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mysql.cj.jdbc.StatementImpl;
+
 import java.time.OffsetDateTime;
 import static java.time.ZoneOffset.UTC;
 
@@ -16,15 +19,19 @@ import xanderson.edu.taskBoard.persistence.entitys.CardEntity;
 
 public class BoardDAO {
 
-    public void insert(String name){
+    public void insert(BoardEntity board){
 
         String sql_board_select = "INSERT INTO boards (board_name) values (?);";
         try (Connection connection = ConnectionUtil.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql_board_select);
         ){
             
-            statement.setString(1, name);
+            statement.setString(1, board.getBoard_name());
             statement.execute();
+
+        if(statement instanceof StatementImpl impl){
+            board.setId(impl.getLastInsertID());
+        }
         }catch(Exception e){
             System.out.println(e);
         }
