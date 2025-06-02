@@ -17,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
+    
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // .formLogin((form) -> form
@@ -25,12 +27,12 @@ public class WebSecurityConfig {
 		http
 			.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/", "/home").permitAll()
+				.requestMatchers("/login").permitAll()
+				.requestMatchers("/managers").hasAnyRole("MANAGERS")
+                .requestMatchers("/users").hasAnyRole("USERS","MANAGERS")
 				.anyRequest().authenticated()
 			)
-            .formLogin(
-                Customizer.withDefaults()
-            )
-			.logout((logout) -> logout.permitAll());
+            .formLogin();
 
 		return http.build();
 	}
@@ -41,13 +43,13 @@ public class WebSecurityConfig {
 			User.withDefaultPasswordEncoder()
 				.username("user")
                 .password("user123")
-                .roles("users")
+                .roles("USERS")
                 .build();
         UserDetails admin =
             User.withDefaultPasswordEncoder()
 				.username("admin")
                 .password("admin123")
-                .roles("managers")
+                .roles("MANAGERS")
                 .build();
 
 		return new InMemoryUserDetailsManager(user, admin);

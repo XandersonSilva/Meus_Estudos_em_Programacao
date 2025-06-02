@@ -13,13 +13,15 @@ public class WellcomeController {
     }
 
     @GetMapping("/users")
-    @PreAuthorize("hasAnyRole('managers', 'users')")
+    //Gerenciado pelo arquivo WebSecurityConfig
+    //@PreAuthorize("hasAnyRole('managers', 'users')")
     public String users(){
         return "Authorized user";
     }
 
     @GetMapping("/managers")
-    @PreAuthorize("hasRole('managers')")
+    //Gerenciado pelo arquivo WebSecurityConfig
+    //@PreAuthorize("hasRole('managers')")
     public String managers(){
         return "Authorized manager";
     }
