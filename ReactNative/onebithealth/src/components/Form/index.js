@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import {Text, View, TextInput, TouchableOpacity} from "react-native";
+import {Text, View, TextInput, TouchableOpacity, 
+    Vibration
+} from "react-native";
 import ResultImc from "../ResultImc";
 import styles from "./style"
 
@@ -9,9 +11,18 @@ export default function Form(){
     const [messageImc, setMessageImc] = useState("Preencha o peso e a altura")
     const [imc, setImc] = useState(null)
     const [textButton, setTextButton] = useState("Calcular")
+    const [errorMessage, setErrorMessage] = useState(null)
+
 
     function imcCalculator() {
         return setImc((weight/(height * height)).toFixed(2))
+    }
+
+    function verificationImc(){
+        if(height == null || weight == null){
+            Vibration.vibrate(70);
+            setErrorMessage("campo obrigatório")
+        }
     }
 
     function validationImc(){
@@ -22,11 +33,15 @@ export default function Form(){
             setMessageImc("Seu IMC é igual: ")
             setTextButton("Calcular Novamente")
 
+            setErrorMessage(null)
             return
         }
+        verificationImc()
+
         setImc(null)
         setTextButton("Calcular")
         setMessageImc("Preencha o peso e a altura")
+
     }
 
     return(
@@ -40,15 +55,23 @@ export default function Form(){
                     placeholder="Ex. 1.75"
                     keyboardType="numeric"
                 ></TextInput>
-            
+                <Text
+                    style={styles.errorMessage}
+                >{errorMessage}</Text>
+
                 <Text style={styles.formLabel}>Peso</Text>
+
                 <TextInput
-                style={styles.input}
-                onChangeText={setWeight}
-                value={weight}
-                placeholder="Ex. 75.52"
-                keyboardType="numeric"
+                    style={styles.input}
+                    onChangeText={setWeight}
+                    value={weight}
+                    placeholder="Ex. 75.52"
+                    keyboardType="numeric"
                 ></TextInput>
+
+                <Text
+                    style={styles.errorMessage}
+                >{errorMessage}</Text>
 
                 <TouchableOpacity
                     style={styles.buttonCalculator}
