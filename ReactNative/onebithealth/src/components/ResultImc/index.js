@@ -1,5 +1,9 @@
 import React from "react";
-import { Text, View, Share, TouchableOpacity, Touchable, ViewBase} from "react-native";
+import { Text,
+        View,
+        Share,
+        TouchableOpacity
+    } from "react-native";
 import styles from "./style";
 
 export default function ResultImc(props){
@@ -23,7 +27,7 @@ export default function ResultImc(props){
                 <TouchableOpacity 
                     onPress={onShare}
                     style={styles.shared}>
-                        
+
                     <Text style={styles.sharedText}>
                         Compartilhar
                     </Text>

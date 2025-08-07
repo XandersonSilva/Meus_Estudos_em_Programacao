@@ -1,6 +1,12 @@
 import React, {useState} from "react";
-import {Text, View, TextInput, TouchableOpacity, 
-    Vibration
+import {
+        Text,
+        View,
+        TextInput,
+        TouchableOpacity,
+        Pressable,
+        Keyboard,
+        Vibration
 } from "react-native";
 import ResultImc from "../ResultImc";
 import styles from "./style"
@@ -15,7 +21,9 @@ export default function Form(){
 
 
     function imcCalculator() {
-        return setImc((weight/(height * height)).toFixed(2))
+        let heightFormat = height.replace(",", ".")
+        let weightFormat = weight.replace(",", ".")
+        return setImc((weightFormat/(heightFormat * heightFormat)).toFixed(2))
     }
 
     function verificationImc(){
@@ -45,7 +53,10 @@ export default function Form(){
     }
 
     return(
-        <View style={styles.formContext}>
+        <Pressable 
+            onPress={Keyboard.dismiss}
+            style={styles.formContext}
+        >
             <View style={styles.form}>
                 <Text style={styles.formLabel}>Altura</Text>
                 <TextInput
@@ -76,7 +87,7 @@ export default function Form(){
                 <TouchableOpacity
                     style={styles.buttonCalculator}
                     
-                    onPress={() => validationImc()}
+                    onPress={() => {validationImc()}}
                 >
                     <Text
                     style={styles.TextButtonCalculator}
@@ -88,6 +99,6 @@ export default function Form(){
                 messageResultImc={messageImc}
                 resultImc={imc}
             />  
-        </View>
+        </Pressable>
     );
 }
