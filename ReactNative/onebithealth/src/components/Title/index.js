@@ -1,10 +1,11 @@
 import React from "react";
-import { Viewm, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import style from "./style"
 
 export default function Title(){
     return(
-        <View>
-            <Text>ONEBITHEALTH</Text>
+        <View style={style.boxTitle}>
+            <Text style={style.textTitle}>ONEBITHEALTH</Text>
         </View>
     );
 }
