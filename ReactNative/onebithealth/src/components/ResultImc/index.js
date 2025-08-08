@@ -23,7 +23,6 @@ export default function ResultImc(props){
             </Text>
 
             <View style={styles.boxSharebutton}>
-                {props.resultImc != null ?
                 <TouchableOpacity 
                     onPress={onShare}
                     style={styles.shared}>
@@ -32,9 +31,6 @@ export default function ResultImc(props){
                         Compartilhar
                     </Text>
                 </TouchableOpacity>
-                :
-                <View/>
-                }
             </View>
         </View>
     );
